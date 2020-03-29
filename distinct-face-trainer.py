@@ -50,7 +50,7 @@ def load_dataset(directory):
 		faces = load_faces(path)
 
 		labels = [subdir for _ in range(len(faces))]
-		print('Loaded %d examples for class: %s' % (len(faces), subdir))
+		print('\tLoaded %d examples for class: %s' % (len(faces), subdir))
 
 		X.extend(faces)
 		y.extend(labels)
@@ -58,9 +58,11 @@ def load_dataset(directory):
 	return asarray(X), asarray(y)
 
 # Load training set
+print("Using training set")
 trainX, trainy = load_dataset('faces/train/')
 
 # Load testing set
+print("Using test set")
 testX, testy = load_dataset('faces/val/')
 
 savez_compressed('distinct-faces-dataset.npz', trainX, trainy, testX, testy)
