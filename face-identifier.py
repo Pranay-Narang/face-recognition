@@ -29,6 +29,40 @@ testy = out_encoder.transform(testy)
 model = SVC(kernel='linear', probability=True)
 model.fit(trainX, trainy)
 
+def extract_face(filename, required_size=(160, 160)):
+	image = Image.open(filename)
+	image = image.convert('RGB')
+	pixels = asarray(image)
+
+	detector = MTCNN()
+	results = detector.detect_faces(pixels)
+
+	x1, y1, width, height = results[0]['box']
+	x1, y1 = abs(x1), abs(y1)
+	x2, y2 = x1 + width, y1 + height
+
+	face = pixels[y1:y2, x1:x2]
+
+	image = Image.fromarray(face)
+	image = image.resize(required_size)
+	face_array = asarray(image)
+
+	return face_array
+
+face_array = extract_face('needed.jpg')
+
+def get_embedding(model, face_pixels):
+	face_pixels = face_pixels.astype('float32')
+	mean, std = face_pixels.mean(), face_pixels.std()
+	face_pixels = (face_pixels - mean) / std
+
+	samples = expand_dims(face_pixels, axis=0)
+
+	yhat = model.predict(samples)
+	return yhat
+
+farray_embs = get_embedding(load_model('facenet_keras.h5'), face_array)
+
 # Insert a random image from test dataset
 selection = choice([i for i in range(testX.shape[0])])
 random_face_pixels = testX_faces[selection]
@@ -37,7 +71,7 @@ random_face_class = testy[selection]
 random_face_name = out_encoder.inverse_transform([random_face_class])
 
 # Predict the face from random image
-samples = expand_dims(random_face_emb, axis=0)
+samples = farray_embs
 yhat_class = model.predict(samples)
 yhat_prob = model.predict_proba(samples)
 
