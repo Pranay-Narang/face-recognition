@@ -63,13 +63,6 @@ def get_embedding(model, face_pixels):
 
 farray_embs = get_embedding(load_model('facenet_keras.h5'), face_array)
 
-# Insert a random image from test dataset
-selection = choice([i for i in range(testX.shape[0])])
-random_face_pixels = testX_faces[selection]
-random_face_emb = testX[selection]
-random_face_class = testy[selection]
-random_face_name = out_encoder.inverse_transform([random_face_class])
-
 # Predict the face from random image
 samples = farray_embs
 yhat_class = model.predict(samples)
@@ -80,4 +73,3 @@ class_index = yhat_class[0]
 class_probability = yhat_prob[0,class_index] * 100
 predict_names = out_encoder.inverse_transform(yhat_class)
 print('Predicted: %s (%.3f)' % (predict_names[0], class_probability))
-print('Expected: %s' % random_face_name[0])
