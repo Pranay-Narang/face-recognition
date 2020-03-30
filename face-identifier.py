@@ -59,12 +59,12 @@ def get_embedding(model, face_pixels):
 	samples = expand_dims(face_pixels, axis=0)
 
 	yhat = model.predict(samples)
-	return yhat
+	return yhat[0]
 
 farray_embs = get_embedding(load_model('facenet_keras.h5'), face_array)
 
 # Predict the face from random image
-samples = farray_embs
+samples = expand_dims(farray_embs, axis=0)
 yhat_class = model.predict(samples)
 yhat_prob = model.predict_proba(samples)
 
