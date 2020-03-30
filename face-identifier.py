@@ -1,10 +1,14 @@
 from random import choice
 from numpy import load
 from numpy import expand_dims
+from numpy import asarray
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import Normalizer
 from sklearn.svm import SVC
 from matplotlib import pyplot
+from PIL import Image
+from mtcnn.mtcnn import MTCNN
+from keras.models import load_model
 
 # Insert the distinct faces model
 data = load('distinct-faces-dataset.npz')
