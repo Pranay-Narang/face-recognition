@@ -47,9 +47,3 @@ class_probability = yhat_prob[0,class_index] * 100
 predict_names = out_encoder.inverse_transform(yhat_class)
 print('Predicted: %s (%.3f)' % (predict_names[0], class_probability))
 print('Expected: %s' % random_face_name[0])
-
-# Show the predicted image
-pyplot.imshow(random_face_pixels)
-title = '%s (%.3f)' % (predict_names[0], class_probability)
-pyplot.title(title)
-pyplot.show()
