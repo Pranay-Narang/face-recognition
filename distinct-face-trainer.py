@@ -62,7 +62,7 @@ print("Using training set")
 trainX, trainy = load_dataset('faces/train/')
 
 # Load testing set
-print("Using test set")
+print("\nUsing test set")
 testX, testy = load_dataset('faces/val/')
 
 savez_compressed('distinct-faces-dataset.npz', trainX, trainy, testX, testy)
