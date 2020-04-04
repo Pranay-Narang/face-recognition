@@ -1,0 +1,9 @@
+# Models
+*.npz
+*.h5
+
+# Test image
+needed.jpg
+
+# Dataset directory
+faces/
